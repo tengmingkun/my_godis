@@ -43,6 +43,14 @@ func NewRouter() map[string]CmdFunc {
 	router["srem"] = SREM
 	router["spop"] = SPOP
 	router["srandmember"] = SRANDMEMBER
+	router["smove"] = SMOVE
+	router["sismember"] = SISMEMBER
+	router["sunion"] = SUNION
+	router["sinter"] = SINTER
+	router["sdiff"] = SDIFF
+	router["sunionstore"] = SUNIONSTORE
+	router["sinterstore"] = SINTERSTORE
+	router["sdiffstore"] = SDIFFSTORE
 	return router
 
 }
