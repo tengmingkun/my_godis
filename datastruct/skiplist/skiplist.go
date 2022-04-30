@@ -123,3 +123,48 @@ func (s *SkipList) Insert(key int, val interface{}) {
 		}
 	}
 }
+
+func (skl *SkipList) Toslice() (score []int, value []interface{}) {
+	if skl == nil {
+		return nil, nil
+	}
+	node := skl.HeadNode
+	for node.down != nil {
+		node = node.down
+	}
+	node = node.right
+
+	for node != nil {
+		score = append(score, node.key)
+		value = append(value, node.val)
+		node = node.right
+	}
+	return
+}
+
+func (skl *SkipList) GetRange(start int, end int) (score []int, result []interface{}) {
+	if skl == nil {
+		return nil, nil
+	}
+	node := skl.HeadNode
+	for node.down != nil {
+		node = node.down
+	}
+	node = node.right
+
+	//移到start点；
+	wight := start
+	for wight > 0 {
+		node = node.right
+		wight--
+	}
+
+	result = []interface{}{}
+	score = []int{}
+	for i := start; i <= end; i++ {
+		score = append(score, node.key)
+		result = append(result, node.val)
+		node = node.right
+	}
+	return
+}

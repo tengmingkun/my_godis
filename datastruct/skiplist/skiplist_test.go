@@ -32,6 +32,41 @@ func TestLevel(t *testing.T) {
 		fmt.Println(" ")
 		node = node.down
 	}
+	node = skl.HeadNode
+	for node.down != nil {
+		node = node.down
+	}
+	node = node.right
+	for node != nil {
+		fmt.Println(node.key)
+		node = node.right
+	}
 
-	fmt.Println(skl.Search(11))
+	//fmt.Println(skl.Search(11))
+}
+
+func TestToSlice(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		skl.Insert(i, i)
+	}
+	score, _ := skl.Toslice()
+	for k, _ := range score {
+		fmt.Println(k)
+	}
+}
+
+func TestGetRange(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		skl.Insert(i, byte(i))
+	}
+	score, val := skl.GetRange(4, 20)
+	for _, v := range score {
+		fmt.Println(v)
+	}
+	for _, v := range val {
+		fmt.Println(v)
+	}
+
 }

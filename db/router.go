@@ -51,6 +51,11 @@ func NewRouter() map[string]CmdFunc {
 	router["sunionstore"] = SUNIONSTORE
 	router["sinterstore"] = SINTERSTORE
 	router["sdiffstore"] = SDIFFSTORE
+
+	//zset相关
+	router["zadd"] = ZADD
+	router["zcard"] = ZCARD
+	router["zrange"] = ZRANGE
 	return router
 
 }
