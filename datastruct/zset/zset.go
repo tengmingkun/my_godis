@@ -32,3 +32,16 @@ func (zset *Zset) GetRange(start int, end int) ([]int, []interface{}) {
 	}
 	return zset.skl.GetRange(start, end)
 }
+
+func (zset *Zset) GetCount(min, max int) int {
+	return zset.skl.GetCount(min, max)
+}
+
+func (zset *Zset) FindMember(val interface{}) (int, bool) {
+	bytes, ok := zset.skl.FindMember(val)
+	return bytes, ok
+}
+
+func (zset *Zset) GetRank(val interface{}) int {
+	return zset.skl.GetRank(val)
+}

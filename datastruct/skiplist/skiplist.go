@@ -2,6 +2,7 @@ package skiplist
 
 import (
 	"math/rand"
+	"test/datastruct/list"
 	"test/datastruct/stack"
 )
 
@@ -75,9 +76,12 @@ func (s *SkipList) Update(key int, val interface{}) {
 
 func (s *SkipList) Insert(key int, val interface{}) {
 	node := s.Search(key)
-	for node != nil {
-		node.val = val
-		node = node.down
+	if node != nil {
+		for node != nil {
+			node.val = val
+			node = node.down
+		}
+		return
 	}
 	stacks := stack.NewStack()
 	node = s.HeadNode
@@ -167,4 +171,68 @@ func (skl *SkipList) GetRange(start int, end int) (score []int, result []interfa
 		node = node.right
 	}
 	return
+}
+
+func (skl *SkipList) GetCount(min, max int) int {
+	if skl == nil {
+		return 0
+	}
+	node := skl.HeadNode
+	for node.down != nil {
+		node = node.down
+	}
+	count := 0
+	node = node.right
+	for node != nil && node.key < min {
+		node = node.right
+	}
+	for node != nil && node.key <= max {
+		count++
+		node = node.right
+	}
+	return count
+}
+
+func (skl *SkipList) FindMember(member interface{}) (int, bool) {
+	if skl == nil {
+		return -1, false
+	}
+	node := skl.HeadNode
+	for node.down != nil {
+		node = node.down
+	}
+	node = node.right
+	for node != nil {
+		if list.Equals(member, node.val) {
+			return node.key, true
+		} else {
+			node = node.right
+		}
+	}
+	return -1, false
+}
+
+func (skl *SkipList) GetRank(mem interface{}) int {
+	start := skl.HeadNode
+	for start.down != nil {
+		start = start.down
+	}
+	end := start.right
+	for end != nil {
+		if list.Equals(mem, end.val) {
+			break
+		} else {
+			end = end.right
+		}
+	}
+	if end == nil {
+		return -1
+	}
+	count := 1
+	start = start.right
+	for start != end {
+		count++
+		start = start.right
+	}
+	return count
 }

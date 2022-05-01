@@ -2,6 +2,7 @@ package skiplist
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 )
 
@@ -21,6 +22,9 @@ func TestLevel(t *testing.T) {
 	for i := 0; i < 50; i = i + 2 {
 		skl.Insert(i, i)
 	}
+	for i := 0; i < 50; i = i + 2 {
+		skl.Insert(i, i)
+	}
 	node := skl.HeadNode
 	for node != nil {
 		cur := node
@@ -32,15 +36,15 @@ func TestLevel(t *testing.T) {
 		fmt.Println(" ")
 		node = node.down
 	}
-	node = skl.HeadNode
-	for node.down != nil {
-		node = node.down
-	}
-	node = node.right
-	for node != nil {
-		fmt.Println(node.key)
-		node = node.right
-	}
+	// node = skl.HeadNode
+	// for node.down != nil {
+	// 	node = node.down
+	// }
+	// node = node.right
+	// for node != nil {
+	// 	fmt.Println(node.key)
+	// 	node = node.right
+	// }
 
 	//fmt.Println(skl.Search(11))
 }
@@ -69,4 +73,55 @@ func TestGetRange(t *testing.T) {
 		fmt.Println(v)
 	}
 
+}
+
+func TestGetCount(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		skl.Insert(i, byte(i))
+	}
+	count := skl.GetCount(0, 10)
+	fmt.Println(count)
+}
+
+func TestInsert(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		skl.Insert(i, byte(i))
+	}
+	for i := 0; i < 50; i++ {
+		skl.Insert(i, byte(i))
+	}
+	count := skl.GetCount(0, 10)
+	fmt.Println(count)
+}
+
+func TestFindMember(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		str := strconv.Itoa(i)
+		skl.Insert(i, []byte(str))
+	}
+	result, ok := skl.FindMember([]byte("15"))
+	if ok == false {
+		fmt.Println("没存在")
+	} else {
+		fmt.Println(result)
+	}
+	result, ok = skl.FindMember([]byte("51"))
+	if ok == false {
+		fmt.Println("没存在")
+	} else {
+		fmt.Println(result)
+	}
+
+}
+
+func TestRank(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		str := strconv.Itoa(i)
+		skl.Insert(i, []byte(str))
+	}
+	fmt.Println(skl.GetRank([]byte("100")))
 }

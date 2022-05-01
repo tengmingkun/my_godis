@@ -56,6 +56,11 @@ func NewRouter() map[string]CmdFunc {
 	router["zadd"] = ZADD
 	router["zcard"] = ZCARD
 	router["zrange"] = ZRANGE
+	router["zcount"] = ZCOUNT
+	router["zrevrange"] = ZREVRANGE
+	router["zscore"] = ZSCORE
+	router["zscan"] = ZSCAN
+	router["zrank"] = ZRANK
 	return router
 
 }
