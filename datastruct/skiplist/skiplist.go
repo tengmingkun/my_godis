@@ -53,7 +53,7 @@ func (s *SkipList) Delete(key int) bool {
 			node = node.down
 		} else if node.right.key == key {
 			node.right = node.right.right
-			node = node.down
+			// node = node.down
 		} else if node.right.key > key {
 			node = node.down
 		} else {
@@ -76,12 +76,9 @@ func (s *SkipList) Update(key int, val interface{}) {
 
 func (s *SkipList) Insert(key int, val interface{}) {
 	node := s.Search(key)
-	if node != nil {
-		for node != nil {
-			node.val = val
-			node = node.down
-		}
-		return
+	for node != nil {
+		node.val = val
+		node = node.down
 	}
 	stacks := stack.NewStack()
 	node = s.HeadNode
@@ -158,7 +155,7 @@ func (skl *SkipList) GetRange(start int, end int) (score []int, result []interfa
 
 	//移到start点；
 	wight := start
-	for wight > 0 {
+	for wight > 0 && node != nil {
 		node = node.right
 		wight--
 	}
@@ -228,7 +225,7 @@ func (skl *SkipList) GetRank(mem interface{}) int {
 	if end == nil {
 		return -1
 	}
-	count := 1
+	count := 0
 	start = start.right
 	for start != end {
 		count++

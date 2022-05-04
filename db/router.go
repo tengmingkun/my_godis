@@ -61,6 +61,8 @@ func NewRouter() map[string]CmdFunc {
 	router["zscore"] = ZSCORE
 	router["zscan"] = ZSCAN
 	router["zrank"] = ZRANK
+	router["zrevrank"] = ZREVRANK
+	router["zremrangebyscore"] = ZREMRANGEBYSCORE
 	return router
 
 }

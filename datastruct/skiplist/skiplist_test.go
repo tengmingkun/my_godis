@@ -25,6 +25,7 @@ func TestLevel(t *testing.T) {
 	for i := 0; i < 50; i = i + 2 {
 		skl.Insert(i, i)
 	}
+	skl.Delete(12)
 	node := skl.HeadNode
 	for node != nil {
 		cur := node
@@ -124,4 +125,17 @@ func TestRank(t *testing.T) {
 		skl.Insert(i, []byte(str))
 	}
 	fmt.Println(skl.GetRank([]byte("100")))
+}
+
+func TestDelet(t *testing.T) {
+	skl := NewSkipList()
+	for i := 0; i < 50; i++ {
+		str := strconv.Itoa(i)
+		skl.Insert(i, []byte(str))
+	}
+	for i := 0; i < 50; i++ {
+		str := strconv.Itoa(i)
+		skl.Insert(i, []byte(str))
+	}
+
 }

@@ -198,6 +198,48 @@ func ZRANK(db *DB, args [][]byte) redis.Reply {
 	return reply.MakeIntReply(int64(count))
 }
 
+func ZREVRANK(db *DB, args [][]byte) redis.Reply {
+	if len(args) != 3 {
+		return reply.MakeArgNumErrReply("zrank")
+	}
+	key := args[1]
+	member := args[2]
+	zset, replys := db.getAsZset(string(key))
+	if replys != nil {
+		return replys
+	}
+	if zset == nil {
+		return reply.MakeIntReply(-1)
+	}
+	count := zset.GetRank(member)
+	len := zset.Size
+	return reply.MakeIntReply(int64(len) - int64(count) - 1)
+}
+
+func ZREMRANGEBYSCORE(db *DB, args [][]byte) redis.Reply {
+	if len(args) != 4 {
+		return reply.MakeArgNumErrReply("zremrangebyscore")
+	}
+	key := args[1]
+	start, err := strconv.Atoi(string(args[2]))
+	if err != nil {
+		return reply.MakeErrReply("index string to num err")
+	}
+	end, err := strconv.Atoi(string(args[3]))
+	if err != nil {
+		return reply.MakeErrReply("index string to num err")
+	}
+	zset, replys := db.getAsZset(string(key))
+	if replys != nil {
+		return replys
+	}
+	if zset == nil {
+		return reply.MakeStatusReply("nil")
+	}
+	count := zset.DeleteKey(start, end)
+	return reply.MakeIntReply(int64(count))
+}
+
 func (db *DB) getAsZset(key string) (*zset.Zset, redis.Reply) {
 	val, ok := db.Get(key)
 	if ok == false {

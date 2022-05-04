@@ -1,6 +1,9 @@
 package zset
 
-import "test/datastruct/skiplist"
+import (
+	"fmt"
+	"test/datastruct/skiplist"
+)
 
 type Zset struct {
 	skl  *skiplist.SkipList
@@ -44,4 +47,18 @@ func (zset *Zset) FindMember(val interface{}) (int, bool) {
 
 func (zset *Zset) GetRank(val interface{}) int {
 	return zset.skl.GetRank(val)
+}
+
+func (zset *Zset) DeleteKey(start, end int) int {
+	count := 0
+	fmt.Println(start, end)
+	for i := start; i <= end; i++ {
+		node := zset.skl.Search(i)
+		if node != nil {
+			zset.skl.Delete(i)
+			zset.Size--
+			count++
+		}
+	}
+	return count
 }
